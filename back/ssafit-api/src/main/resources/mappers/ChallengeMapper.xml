@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.challenge.dao.ChallengeDao">
+	<select id="selectChallengeList" parameterType="Long" resultType="ChallengeResponseDto">
+		select
+			c.challenge_name,
+			c.challenge_info,
+			c.challenge_icon_directory,
+			c.challenge_goal,
+			m.achieve_date
+		from challenges c left join challenge_user_map m
+			on c.id = m.challenges_id
+			and m.member_id = #{memberId};
+	</select>
+	
+	
+	<!-- List<도전과제 달성 대상> 가져오는 메서드 -->
+	<select id="selectTarget" resultType="String">
+		select challenge_target
+		from challenges;
+	</select>
+	
+	<!-- 사용자의 현재 값 받아오기 -->
+	<!-- 이건 userMapper에서 해야 할 작업인 듯 함 -->
+	<select id="selectTargetCntByLogin" parameterType="map" resultType="Integer">
+		select ${target}
+		from member
+		where id = #{memberId};
+	</select>
+	
+	<select id="selectTargetCnt" parameterType="map" resultType="Integer">
+		select count(*)
+		from ${target}
+		where member_id = #{memberId};
+	</select>	
+	
+	
+	<select id="selectAchievement" parameterType="map" resultType="Long">
+		select id
+		from challenges
+		where challenge_target = #{target} 
+		and challenge_goal = #{value};
+	</select>
+	
+	<select id="selectAchievedChallenges" parameterType="Long" resultType="String">
+		select c.challenge_icon_directory
+		from challenges c join challenge_user_map m
+			on c.id = m.challenges_id 
+		where m.member_id = #{memberId};
+	</select>
+	
+	<insert id="insertChallenge" parameterType="ChallengeRequestDto">
+		insert into challenge_user_map (challenges_id, member_id, achieve_date)
+		values (#{challengeId}, #{memberId}, now());
+	</insert>
+</mapper>

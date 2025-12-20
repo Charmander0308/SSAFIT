@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.community.dao.LikedDao">
+	<select id="checkLiked" parameterType="LikedDto" resultType="Integer">
+		select count(*)
+		from liked
+		where community_id = #{communityId}
+			and member_id = #{memberId};
+	</select>
+	
+	<insert id="insertLiked" parameterType="LikedDto">
+		insert into liked (community_id, member_id)
+		values (#{communityId}, #{memberId});
+	</insert>
+	
+	<delete id="deleteLiked" parameterType="LikedDto">
+		delete from liked
+		where community_id = #{communityId}
+			and member_id = #{memberId};
+	</delete>
+
+	<select id="LikedCnt" parameterType="map" resultType="Integer">
+		select count(*)
+		from liked
+		where
+			<choose>
+				<when test="domain == 'member'">
+					member_id = #{id}
+				</when>
+				<when test="domain == 'community'">
+					community_id = #{id}
+				</when>
+			</choose>
+	</select>
+</mapper>

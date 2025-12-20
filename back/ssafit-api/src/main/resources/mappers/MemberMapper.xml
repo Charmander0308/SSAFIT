@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.member.dao.MemberDao">
+	<resultMap type="MemberAuthDto" id="MemberAuthMap">
+		<constructor>
+			<idArg column="id" javaType="long"/>
+			<arg column="user_id" javaType="string"/>		
+			<arg column="user_pw" javaType="string"/>		
+			<arg column="name" javaType="string"/>		
+			<arg column="nickname" javaType="string"/>		
+			<arg column="email" javaType="string"/>		
+			<arg column="grade" javaType="integer"/>		
+		</constructor>
+	</resultMap>
+	<!-- Id(정수)로 회원 조회 -->
+	<select id="findByUserId" parameterType="string" resultMap="MemberAuthMap">
+		SELECT id, user_id, user_pw, name, nickname, email, grade
+		FROM member
+		WHERE user_id = #{userId};
+	</select>
+	<!-- oauth의 경우 provider, providerId로 회원 조회 -->
+	<select id="findByProvider" resultMap="MemberAuthMap">
+		SELECT id, user_id, user_pw, name, nickname, email, grade
+		FROM member
+		WHERE provider = #{provider}
+		AND provider_id = #{providerId};
+	</select>
+	<!-- 회원가입 -->
+	<insert id="save">
+		INSERT INTO member(user_id, user_pw, name, nickname, email, birth, grade, interests)
+		VALUES (#{member.userId}, #{member.userPw}, #{member.name}, #{member.nickname}, #{member.email}, #{member.birth}, 0, #{interests});
+	</insert>
+	<!-- refreshToken 재발급 -->
+	<update id="updateRefreshToken">
+		UPDATE member
+		SET refresh_token = #{refreshToken}
+		WHERE id = #{id};
+	</update>
+	<!-- 유저 개인정보 불러오기 -->
+	<select id="findProfileById" parameterType="long" resultType="MemberProfileResponseDto">
+		SELECT 
+			id,
+			name,
+			nickname,
+			birth,
+			signdate,
+			email,
+			interests AS interestCode,
+			profile_img_directory
+		FROM member
+		WHERE id = #{id};
+	</select>
+	<!-- 유저 활동정보 불러오기 -->
+	<select id="findById" parameterType="long" resultType="MemberStatusResponseDto">
+		SELECT
+			m.id,	
+		    m.follower,
+		    m.following,
+			m.totalVisited,
+			m.continuousVisited,
+			m.totalViews,
+			m.totalComments
+		FROM member m
+		WHERE m.id = #{id};
+	</select>
+	<!-- 팔로워 리스트 불러오기 -->
+	<select id="findFollowerById" parameterType="long" resultType="MemberSimpleDto">
+		SELECT
+			m.id,
+			m.name,
+			m.nickname,
+			m.profile_img_directory
+		FROM follow f
+		JOIN member m 
+			ON f.`from` = m.id 
+			WHERE f.`to` = #{id}; 
+	</select>
+	<!-- 팔로잉 리스트 불러오기 -->
+	<select id="fintFollowingById" parameterType="long" resultType="MemberSimpleDto">
+		SELECT
+			m.id,
+			m.name,
+			m.nickname,
+			m.profile_img_directory
+		FROM follow f
+		JOIN member m
+			ON f.`to` = m.id
+			WHERE f.`from` = #{id};
+	</select>
+	<!-- 팔로우 테이블에 관계 추가 -->
+	<insert id="follow" parameterType="FollowDto">
+		INSERT INTO follow(`from`, `to`)
+		VALUES #{fromId}, #{toId};
+	</insert>
+	<!-- from의 following 1 추가 -->
+	<update id="increaseFollowingCnt" parameterType="long">
+		UPDATE member
+		SET following_cnt = following_cnt + 1
+		WHERE id = #{id}
+	</update>
+	<!-- to의 follower 1 추가 -->
+	<update id="increaseFollowerCnt" parameterType="long">
+		UPDATE member
+		SET follower_cnt = follower_cnt + 1
+		WHERE id = #{id}
+	</update>
+</mapper>

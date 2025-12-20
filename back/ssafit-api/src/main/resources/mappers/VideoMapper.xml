@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.video.dao.VideoDao">
+	<select id="getVideoCntByCategory" parameterType="Integer" resultType="Integer">
+		select count(*)
+		from youtube_video
+		where category = #{category};
+	</select>
+	
+	<insert id="insertVideo" parameterType="List">
+		insert into youtube_video (title, youtube_id, channel_name, view_cnt, category)
+		values 
+		<foreach collection="list" item="video" separator=",">
+			(#{video.title}, #{video.youtubeId}, #{video.channelName}, #{video.viewCnt}, #{video.category})
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+        title = VALUES(title),                 
+        youtube_id = VALUES(youtube_id),       
+        channel_name = VALUES(channel_name),
+        view_cnt = VALUES(view_cnt),
+        category = VALUES(category)
+	</insert>
+</mapper>
