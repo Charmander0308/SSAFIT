@@ -14,7 +14,7 @@ public class CommunitySearchCondition {
 	private String orderByDir;
 	
 	public CommunitySearchCondition() {
-		this.page = 0;
+		this.page = 1;
 		this.pageSize = 10;
 		this.orderBy = "upload_date";
 		this.orderByDir = "desc";

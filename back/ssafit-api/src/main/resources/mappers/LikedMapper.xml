@@ -34,4 +34,10 @@
 				</when>
 			</choose>
 	</select>
+	
+	<select id="findTotalLikedById" parameterType="Long" resultType="Integer">
+		select count(*)
+		from liked
+		where member_id = #{id}
+	</select>
 </mapper>

@@ -29,6 +29,7 @@ public class CommentController {
 	public ResponseEntity<Void> commentWrite(@RequestBody CommentRequestDto commentRequestDto,
 			@Parameter(hidden = true) @AuthenticationPrincipal (expression = "id") Long memberId) {
 		commentRequestDto.setMemberId(memberId);
+		System.out.println("요청옴?"+commentRequestDto);
 		commentService.writeComment(commentRequestDto);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}

@@ -31,13 +31,12 @@ public enum Category {
 	}
 	
 	// view에서 db로 보낼 때 쓰는 메서드
-	public static int toBitmasking(List<String> selected) {
+	public static int toBitmasking(List<Integer> selected) {
 		if(selected == null || selected.isEmpty()) 
 			return 0;
 		int sum = 0;
-		for(String name : selected) {
-			Category c = Category.valueOf(name.toUpperCase());
-			sum |= c.code;
+		for(int code : selected) {
+			sum |= code;
 		}
 		return sum;
 	}

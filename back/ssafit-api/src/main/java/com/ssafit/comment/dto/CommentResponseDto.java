@@ -16,6 +16,8 @@ public class CommentResponseDto {
 	private Long communityId;
 	@Schema(description="유튜브 비디오 id. 게시글 id와 양립불가", example="1")
 	private Long youtubeVideoId;
+	@Schema(description="댓글 작성자 id(PK)", example="3")
+	private Long memberId;
 	@Schema(description="댓글 작성자 닉네임", example="근육맨")
 	private String nickname;
 	@Schema(description="댓글 작성자 프로필사진 경로", example="/img/1.jpg")
@@ -24,13 +26,14 @@ public class CommentResponseDto {
 	public CommentResponseDto() {}
 
 	public CommentResponseDto(Long id, String content, LocalDateTime uploadDate, Long communityId, Long youtubeVideoId,
-			String nickname, String profileImg) {
+			Long memberId, String nickname, String profileImg) {
 		super();
 		this.id = id;
 		this.content = content;
 		this.uploadDate = uploadDate;
 		this.communityId = communityId;
 		this.youtubeVideoId = youtubeVideoId;
+		this.memberId = memberId;
 		this.nickname = nickname;
 		this.profileImg = profileImg;
 	}
@@ -75,6 +78,14 @@ public class CommentResponseDto {
 		this.youtubeVideoId = youtubeVideoId;
 	}
 
+	public Long getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
+	}
+
 	public String getNickname() {
 		return nickname;
 	}
@@ -94,8 +105,9 @@ public class CommentResponseDto {
 	@Override
 	public String toString() {
 		return "CommentResponseDto [id=" + id + ", content=" + content + ", uploadDate=" + uploadDate + ", communityId="
-				+ communityId + ", youtubeVideoId=" + youtubeVideoId + ", nickname=" + nickname + ", profileImg="
-				+ profileImg + "]";
+				+ communityId + ", youtubeVideoId=" + youtubeVideoId + ", memberId=" + memberId + ", nickname="
+				+ nickname + ", profileImg=" + profileImg + "]";
 	}
-	
+
+
 }

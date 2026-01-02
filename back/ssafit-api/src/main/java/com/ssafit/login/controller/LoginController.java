@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafit.login.dto.LoginRequestDto;
+import com.ssafit.login.dto.LoginResponseDto;
 import com.ssafit.login.service.LoginService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +23,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto){
+	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
 		return ResponseEntity.ok(loginService.login(loginRequestDto.getId(), loginRequestDto.getPassword()));
 	}
 }

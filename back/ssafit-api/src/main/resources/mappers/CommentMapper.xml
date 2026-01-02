@@ -26,6 +26,7 @@
 				</otherwise>
 			</choose>
 		</where>
+		order by c.upload_date desc;
 	</select>
 	
 	<select id="commentCnt" parameterType="map" resultType="Integer">
@@ -60,4 +61,10 @@
 		insert into comment (content, upload_date, community_id, youtube_video_id, member_id)
 		values (#{content}, now(), #{communityId}, #{youtubeVideoId}, #{memberId});
 	</insert>
+	
+	<select id="findTotalCommentsById" parameterType="Long" resultType="Integer">
+		select count(*)
+		from comment
+		where member_id = #{id}
+	</select>
 </mapper>

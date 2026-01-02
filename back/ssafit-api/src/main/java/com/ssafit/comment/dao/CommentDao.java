@@ -16,4 +16,6 @@ public interface CommentDao {
 	public Integer insertComment(CommentRequestDto comment);
 	public void updateComment(CommentRequestDto comment);
 	public void deleteComment(Long commentId);
+	
+	public Integer findTotalCommentsById(Long id);
 }

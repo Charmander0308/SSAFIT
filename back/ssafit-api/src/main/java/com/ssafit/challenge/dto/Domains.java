@@ -4,7 +4,9 @@ public enum Domains {
 	LOGIN("member", new String[] {"total_visited, continuous_visited"},"id"),
 	COMMUNITY("community", new String[] {"communityCnt"},"memberId"),
 	LIKED("liked", new String[] {"likedCnt"},"memberId"),
-	COMMENT("comment", new String[] {"commentCnt"},"memberId");
+	COMMENT("comment", new String[] {"commentCnt"},"memberId"),
+	VIDEO("youtubeVideo", new String[] {"commentCnt"},"YoutubeVideoId");
+	
 	
 	//챌린지 점검 대상 테이블
 	private final String domain;

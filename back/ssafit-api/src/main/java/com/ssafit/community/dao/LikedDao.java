@@ -18,4 +18,6 @@ public interface LikedDao {
 	public List<LikedDto> selectLikedList(Map<String, Object> params);
 	//대상 별로 liked개수 추출 기능 추가
 	public Integer LikedCnt(Map<String, Object> params);
+	
+	public Integer findTotalLikedById(Long id);
 }

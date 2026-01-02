@@ -33,15 +33,16 @@ CREATE TABLE IF NOT EXISTS `ssafy`.`member` (
   `birth` DATETIME NULL,
   `grade` TINYINT NOT NULL DEFAULT 0,
   `interests` INT NOT NULL DEFAULT 0,
-  `profile_img_directory` VARCHAR(255) NULL,
+  `profile_img_directory` VARCHAR(255) DEFAULT '/assets/img/userProfile/default_profile.png',
   `last_login_date` DATETIME NULL,
   `total_visited` INT NOT NULL DEFAULT 0,
   `continuous_visited` INT NOT NULL DEFAULT 0,
   `follower_cnt` INT NOT NULL DEFAULT 0,
   `following_cnt` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
-ENGINE = InnoDB;
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE
+) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -52,9 +53,9 @@ CREATE TABLE IF NOT EXISTS `ssafy`.`community` (
   `type` INT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `content` TEXT NOT NULL,
-  `views` INT NOT NULL,
+  `views` INT NOT NULL DEFAULT 0,
   `upload_date` DATETIME NOT NULL,
-  `update_date` DATETIME NOT NULL,
+  `update_date` DATETIME,
   `video_directory` VARCHAR(255) NULL,
   `thumbnail_directory` VARCHAR(255) NULL,
   `category` INT NULL,
@@ -112,7 +113,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ssafy`.`youtube_video` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
-  `youtube_id` VARCHAR(50) NOT NULL,
+  `youtube_id` VARCHAR(50) NOT NULL UNIQUE,
   `channel_name` VARCHAR(100) NOT NULL,
   `view_cnt` BIGINT NOT NULL,
   `category` INT NOT NULL,
@@ -126,7 +127,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ssafy`.`comment` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(255) NOT NULL,
-  `upload_date` VARCHAR(45) NOT NULL,
+  `upload_date` DATETIME NOT NULL,
   `community_id` BIGINT NULL,
   `youtube_video_id` BIGINT NULL,
   `member_id` BIGINT NOT NULL,
@@ -158,17 +159,18 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ssafy`.`liked` (
   `community_id` BIGINT NOT NULL,
   `member_id` BIGINT NOT NULL,
+  PRIMARY KEY (`community_id`,`member_id`),
   INDEX `fk_liked_community1_idx` (`community_id` ASC) VISIBLE,
   INDEX `fk_liked_member1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_liked_community1`
     FOREIGN KEY (`community_id`)
     REFERENCES `ssafy`.`community` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_liked_member1`
     FOREIGN KEY (`member_id`)
     REFERENCES `ssafy`.`member` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

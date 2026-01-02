@@ -42,6 +42,17 @@
 		insert into community (type, title, content, upload_date, video_directory, thumbnail_directory, category, member_id)
 		values (#{type}, #{title}, #{content}, now(), #{videoDirectory}, #{thumbnailDirectory}, #{category}, #{memberId}); 
 	</insert>
+	
+	<select id="recommendCommunityByCategoryId" parameterType="Integer" resultType="AIRecommendPostDto">
+		select id, title, 
+			LEFT(content, 30) as content_part
+		from community
+		<if test="category!=null and category > 0">
+		where category = #{category};
+		</if>
+		order by rand() limit 200;
+	</select>
+	
 
 	<update id="updateCommunity" parameterType="CommunityRequestDto">
 		update community
@@ -60,10 +71,15 @@
 		set views = views+1
 		where id=#{id};
 	</update>
-	
-	<select id="communityCnt" parameterType="map" resultType="Integer">
+	<!-- id로 해당 유저가 업로드한 게시물 총 조회수 반환 -->
+	<select id="findTotalViewsById" parameterType="Long" resultType="Long">
+		SELECT IFNULL(SUM(views), 0)
+		FROM community
+		WHERE member_id = #{id};
+	</select>
+	<select id="findTotalPostedById" parameterType="Long" resultType="Integer">
 		select count(*)
 		from community
-		where ${type} = #{value};
+		where member_id = #{id}
 	</select>
 </mapper>

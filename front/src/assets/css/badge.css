@@ -1,0 +1,25 @@
+/* 등급별 색상 클래스 */
+.bg-bronze {
+	background-color: #ad5600;
+	color: #fff;
+}
+.bg-silver {
+	background-color: #435f7a;
+	color: #fff;
+}
+.bg-gold {
+	background-color: #ec9a00;
+	color: #fff;
+}
+.bg-platinum {
+	background-color: #27e2a4;
+	color: #fff;
+}
+.bg-diamond {
+	background-color: #00b4fc;
+	color: #fff;
+}
+.bg-ruby {
+	background-color: #ff0062;
+	color: #fff;
+}

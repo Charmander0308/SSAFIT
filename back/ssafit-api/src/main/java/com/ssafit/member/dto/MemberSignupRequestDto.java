@@ -1,7 +1,6 @@
 package com.ssafit.member.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,7 +24,7 @@ public class MemberSignupRequestDto {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDate birth;
 	@Schema(description = "선호하는 운동부위", example = "[\"등\", \"어깨\"]")
-	private List<String> category;
+	private List<Integer> category;
 	
 	public MemberSignupRequestDto() { }
 
@@ -77,11 +76,11 @@ public class MemberSignupRequestDto {
 		this.birth = birth;
 	}
 
-	public List<String> getCategory() {
+	public List<Integer> getCategory() {
 		return category;
 	}
 
-	public void setCategory(List<String> category) {
+	public void setCategory(List<Integer> category) {
 		this.category = category;
 	}
 

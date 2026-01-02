@@ -36,7 +36,7 @@ public class CommunityService {
 	
 	//게시글 목록 조회
 	public List<CommunityResponseDto> getCommunityList(CommunitySearchCondition condition){
-		condition.setOffSet(condition.getPage()*condition.getPageSize());
+		condition.setOffSet((condition.getPage()-1)*condition.getPageSize());
 		List<CommunityResponseDto> communityList = communityDao.selectCommunityList(condition);
 		if(communityList == null) {
 			throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
@@ -45,6 +45,7 @@ public class CommunityService {
 	}
 	
 	//게시글 세부 내용 조회
+	@Transactional
 	public CommunityResponseDto readCommunity(Long communityId, Long memberId) {
 		if(communityId == null || memberId == null) {
 			throw new CustomException(ErrorCode.INVALID_REQUEST);

@@ -67,4 +67,11 @@ public class MemberController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@GetMapping("/status/{id}")
+	public ResponseEntity<Boolean> isFollowing(
+			@Parameter(description = "상대의 id 값", example = "1") @PathVariable("id") Long toId,
+			@Parameter(hidden = true) @AuthenticationPrincipal(expression = "id") Long fromId){
+		return ResponseEntity.ok(memberService.isFollowing(new FollowDto(fromId, toId)));
+	}
+	
 }

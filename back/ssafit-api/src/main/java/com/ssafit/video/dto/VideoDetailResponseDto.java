@@ -1,10 +1,15 @@
 package com.ssafit.video.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.google.api.client.util.DateTime;
+import com.ssafit.comment.dto.CommentResponseDto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class VideoDetailResponseDto {
+	private Long id;
 	private String videoId;
 	private String thumbnailUrl;
 	private String title;
@@ -14,6 +19,9 @@ public class VideoDetailResponseDto {
 	private String channelThumbnailUrl;
 	private Long viewCount;
 	private Long likeCount;
+	
+	private List<CommentResponseDto> comments;
+    private Integer commentCnt;
 
 	public VideoDetailResponseDto() {}
 
@@ -28,6 +36,14 @@ public class VideoDetailResponseDto {
 		this.channelThumbnailUrl = channelThumbnailUrl;
 		this.viewCount = viewCount;
 		this.likeCount = likeCount;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getVideoId() {
@@ -94,10 +110,30 @@ public class VideoDetailResponseDto {
 		this.likeCount = likeCount;
 	}
 
+	public List<CommentResponseDto> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentResponseDto> comments) {
+		this.comments = comments;
+	}
+
+	public Integer getCommentCnt() {
+		return commentCnt;
+	}
+
+	public void setCommentCnt(Integer commentCnt) {
+		this.commentCnt = commentCnt;
+	}
+
 	@Override
 	public String toString() {
-		return "VideoDetailResponseDto [videoId=" + videoId + ", thumbnailUrl=" + thumbnailUrl + ", title=" + title
-				+ ", publishedAt=" + publishedAt + ", channelTitle=" + channelTitle + ", channelThumbnailUrl="
-				+ channelThumbnailUrl + ", viewCount=" + viewCount + ", likeCount=" + likeCount + "]";
+		return "VideoDetailResponseDto [id=" + id + ", videoId=" + videoId + ", thumbnailUrl=" + thumbnailUrl
+				+ ", title=" + title + ", publishedAt=" + publishedAt + ", channelTitle=" + channelTitle
+				+ ", channelThumbnailUrl=" + channelThumbnailUrl + ", viewCount=" + viewCount + ", likeCount="
+				+ likeCount + ", comments=" + comments + ", commentCnt=" + commentCnt + "]";
 	}
+
+
+
 }

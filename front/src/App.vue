@@ -1,12 +1,10 @@
-<template>
-  <div>
-    <h2>Hello SSAFIT</h2>
-  </div>
-</template>
-
 <script setup>
-
+import { RouterView } from 'vue-router'
 </script>
+
+<template>
+  <RouterView />
+</template>
 
 <style scoped>
 

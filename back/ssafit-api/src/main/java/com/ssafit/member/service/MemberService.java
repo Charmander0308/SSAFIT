@@ -86,7 +86,7 @@ public class MemberService {
 			throw new CustomException(ErrorCode.INVALID_SELF_FOLLOW);
 		
 		try {
-			memberDao.follow(followDto);
+			memberDao.follow(followDto.getFromId(), followDto.getToId());
 		} catch (DuplicateKeyException e) {
 			throw new CustomException(ErrorCode.ALREADY_FOLLOWING);
 		}
@@ -98,5 +98,15 @@ public class MemberService {
 		if(result == 0) throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
 		
 	}
+	
+	public Boolean isFollowing(FollowDto followDto) {
+		Boolean result = memberDao.findFollowStatus(followDto.getFromId(), followDto.getToId());
+		if(result == null) {
+			throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+		}
+		return result;
+	}
+	
+	
 	
 }

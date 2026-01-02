@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafit.challenge.service.ChallengeService;
+import com.ssafit.comment.dao.CommentDao;
+import com.ssafit.community.dao.CommunityDao;
 import com.ssafit.dashboard.dto.DashboardResponseDto;
 import com.ssafit.global.exception.CustomException;
 import com.ssafit.global.exception.ErrorCode;
@@ -17,10 +19,18 @@ import com.ssafit.member.service.MemberService;
 public class DashboardService {
 	private final MemberService memberService;
 	private final ChallengeService challengeService;
+	private final CommunityDao communityDao;
+	private final CommentDao commentDao;
 	
-	public DashboardService(MemberService memberService, ChallengeService challengeService) {
+	public DashboardService(
+			MemberService memberService, 
+			ChallengeService challengeService, 
+			CommunityDao communityDao,
+			CommentDao commentDao) {
 		this.memberService = memberService;
 		this.challengeService = challengeService;
+		this.communityDao = communityDao;
+		this.commentDao = commentDao;
 	}
 	
 	public DashboardResponseDto getDashboardData(Long id) {
@@ -28,6 +38,8 @@ public class DashboardService {
 		if(memberDto == null) {
 			throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
 		}
+		memberDto.setTotalViews(communityDao.findTotalViewsById(id));
+		memberDto.setTotalComments(commentDao.findTotalCommentsById(id));
 		
 		List<String> challengesList = challengeService.achievedChallenges(id);
 		

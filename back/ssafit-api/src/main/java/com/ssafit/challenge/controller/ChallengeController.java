@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafit.challenge.dto.ChallengeResponseDto;
+import com.ssafit.challenge.dto.ChallengeUserDto;
 import com.ssafit.challenge.service.ChallengeService;
 
 
@@ -31,8 +32,21 @@ public class ChallengeController {
 	@GetMapping("/board")  
 	public ResponseEntity<List<ChallengeResponseDto>> getChallenge(
 			@Parameter(hidden = true) @AuthenticationPrincipal (expression = "id") Long memberId) {
-		return ResponseEntity.ok(challengeService.getChellengeList(memberId));
-
+		return ResponseEntity.ok(challengeService.getChallengeList(memberId));
+	}
+	
+//	@Operation(summary="유저의 업적 달성 현황 조회", description="달성한 업적 리스트/진행 중인 업적 리스트 두 가지를 반환")
+//	@GetMapping("/rate")
+//	public ResponseEntity<ChallengeUserDto> challengeInfo(
+//			@Parameter(hidden = true) @AuthenticationPrincipal (expression = "id") Long memberId){
+//		return ResponseEntity.ok(challengeService.userChallengeInfo(memberId));
+//	}
+	
+	@Operation(summary="유저의 업적 달성 현황 조회", description="달성한 업적 리스트/진행 중인 업적 리스트 두 가지를 반환")
+	@GetMapping("/rate/{id}")
+	public ResponseEntity<ChallengeUserDto> challengeInfo(
+			@PathVariable("id") Long memberId){
+		return ResponseEntity.ok(challengeService.userChallengeInfo(memberId));
 	}
 	
 //	@Operation(summary="", description="")

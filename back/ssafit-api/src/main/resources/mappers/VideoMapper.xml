@@ -22,4 +22,43 @@
         view_cnt = VALUES(view_cnt),
         category = VALUES(category)
 	</insert>
+	
+	<select id="recommendVideosByCategoryId" parameterType="Integer" resultType="AIRecommendVideoDto">
+		select id, youtube_id, title
+		from youtube_video 
+		<if test="category!=null and category > 0">
+		where category = #{category}
+		</if>
+		order by rand() limit 100
+	</select>
+	
+	<select id="selectVideosByCategoryId" parameterType="Integer" resultType="VideoDto">
+		select id, youtube_id, title
+		from youtube_video 
+		<if test="category!=null and category > 0">
+		where category = #{category};
+		</if>
+	</select>
+	
+	<select id="selectVideos" resultType="VideoDto">
+		select id, youtube_id
+		from youtube_video
+	</select>
+	
+	<select id="selectRandomVideo" parameterType="Integer" resultType="VideoDto">
+		SELECT id, youtube_id
+		FROM youtube_video
+		WHERE category = #{category}
+		  AND id >= (
+		    SELECT FLOOR(RAND() * (MAX(id) - MIN(id) + 1)) + MIN(id)
+		    FROM youtube_video
+		  )
+		LIMIT 5;
+	</select>
+	
+	<select id="selectVideoIdById" parameterType="Long" resultType="String"> 
+	 select youtube_id
+	 from youtube_video
+	 where id = #{id}
+	</select>
 </mapper>

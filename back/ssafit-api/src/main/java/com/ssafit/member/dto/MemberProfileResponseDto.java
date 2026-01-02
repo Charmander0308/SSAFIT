@@ -3,6 +3,7 @@ package com.ssafit.member.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,8 +17,10 @@ public class MemberProfileResponseDto {
 	@Schema(description = "회원 닉네임", example = "띵균좌")
 	private String nickname;
 	@Schema(description = "생년월일", example = "2001-01-01")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date birth;
 	@Schema(description = "가입일", example = "2025-07-21")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date signdate;
 	@Schema(description = "회원 이메일", example = "ssafy@ssafy.com")
 	private String email;

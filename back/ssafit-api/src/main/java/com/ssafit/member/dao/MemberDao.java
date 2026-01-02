@@ -10,6 +10,7 @@ import com.ssafit.member.dto.FollowDto;
 import com.ssafit.member.dto.MemberAuthDto;
 import com.ssafit.member.dto.MemberProfileResponseDto;
 import com.ssafit.member.dto.MemberStatusResponseDto;
+import com.ssafit.member.dto.MemberVisitedCheckDto;
 import com.ssafit.member.dto.MemberSignupRequestDto;
 import com.ssafit.member.dto.MemberSimpleDto;
 
@@ -33,10 +34,17 @@ public interface MemberDao {
 	//해당 회원의 팔로잉 목록 조회
 	List<MemberSimpleDto> findFollowingById(Long id);
 	//팔로우 추가하기
-	int follow(FollowDto followDto);
+	int follow(@Param("fromId") Long fromId, @Param("toId") Long toId);
 	//from의 팔로잉 수 1 추가
 	int increaseFollowingCnt(Long id);
 	//to의 팔로워 수 1 추가
 	int increaseFollowerCnt(Long id);
+	
+	//출석 관련 데이터 불러오기
+	MemberVisitedCheckDto findVisitedDataById(Long id);
+	//출석 관련 데이터 갱신
+	int updateVisitedInfo(MemberVisitedCheckDto memberVisitedCheckDto);
+	//팔로우 상태 체크
+	Boolean findFollowStatus(@Param("fromId") Long fromId, @Param("toId") Long toId);
 
 }

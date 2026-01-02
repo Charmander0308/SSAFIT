@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafit.ai.dto.AIRecommendPostDto;
 import com.ssafit.community.dto.CommunityRequestDto;
 import com.ssafit.community.dto.CommunityResponseDto;
 import com.ssafit.community.dto.CommunitySearchCondition;
@@ -15,9 +16,15 @@ public interface CommunityDao {
 	public CommunityResponseDto selectCommunityDetail(Long communityId);
 	public Integer updateViewCnt(Long communityId);
 	public Integer insertCommunity(CommunityRequestDto community);
+	public List<AIRecommendPostDto> recommendCommunityByCategoryId(Integer category);
 	
 	//부가기능
 	public void updateCommunity(CommunityRequestDto community);
 	public void deleteCommunity(Long communityId);
 	public Integer communityCnt(Map<String, Object> params);
+	
+	public Long findTotalViewsById(Long id);
+	public Integer findTotalPostedById(Long id);
+	
+	
 }

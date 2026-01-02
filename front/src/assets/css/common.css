@@ -1,0 +1,18 @@
+main {
+    min-width: 350px;
+    min-height: 80vh;
+}
+.footer {
+    bottom: 0px;
+    height: 1rem;
+}
+
+
+.text-start-muted {
+    color: #6c757d;
+    text-align: left;
+}
+
+.scroller::-webkit-scrollbar {
+  scrollbar-width: thin;
+}

@@ -18,12 +18,14 @@ public class MemberStatusResponseDto {
 	private Long totalViews;
 	@Schema(description = "해당 회원이 등록한 총 댓글 수", example = "38")
 	private Integer totalComments;
+	@Schema(description = "회원등급", example = "4")
+	private Integer grade;
 	
 	public MemberStatusResponseDto() {
 	}
 
 	public MemberStatusResponseDto(Long id, Integer follower, Integer following, Integer totalVisited, Integer continuousVisited, Long totalViews,
-			Integer totalComments) {
+			Integer totalComments, Integer grade) {
 		this.id = id;
 		this.follower = follower;
 		this.following = following;
@@ -31,6 +33,7 @@ public class MemberStatusResponseDto {
 		this.continuousVisited = continuousVisited;
 		this.totalViews = totalViews;
 		this.totalComments = totalComments;
+		this.grade = grade;
 	}
 	
 	public Long getId() {
@@ -89,4 +92,12 @@ public class MemberStatusResponseDto {
 		this.totalComments = totalComments;
 	}
 
+	public Integer getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Integer grade) {
+		this.grade = grade;
+	}
+	
 }

@@ -1,15 +1,17 @@
 package com.ssafit.video.controller;
 
-import org.springframework.http.HttpStatus;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafit.category.type.Category;
 import com.ssafit.video.dto.VideoDetailResponseDto;
-import com.ssafit.video.dto.YouTubeVideoDataDto;
+import com.ssafit.video.dto.VideoDto;
+import com.ssafit.video.dto.VideoListResponseDto;
 import com.ssafit.video.service.VideoService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,17 +26,32 @@ public class VideoController {
 	public VideoController(VideoService videoService) {
 		this.videoService = videoService;
 	}
-//	
-//	@GetMapping
-//	public ResponseEntity<List<CategoryVideoDto>> video(){
-//		ai로부터 추천영상 받음
-//		return new ResponseEntity<List<CategoryVideoDto>>(categoryList, HttpStatus.OK);
-//	}
-//	
+	
+	@GetMapping
+	public ResponseEntity<List<VideoListResponseDto>> getVideoList(){
+		return ResponseEntity.ok(videoService.getVideoList());
+	}
+	
+	@GetMapping("/main")
+	public ResponseEntity<List<VideoDto>> getMainRecommendation() {
+	    // 서비스에서 해당 카테고리만 처리하도록 요청
+	    List<VideoDto> recommendedIds = videoService.getMainRecommended();
+	    return ResponseEntity.ok(recommendedIds);
+	}
+	
+	
+	@GetMapping("/recommend")
+	public ResponseEntity<List<VideoDto>> getRecommendation(@RequestParam Integer categoryId) {
+	    // 서비스에서 해당 카테고리만 처리하도록 요청
+	    List<VideoDto> recommendedIds = videoService.getRecommendedVideoIds(categoryId);
+	    return ResponseEntity.ok(recommendedIds);
+	}
+	
+
 	@GetMapping("/{videoId}")
 	@Operation(summary = "동영상 세부내용 조회", description = "선택한 동영상의 세부 정보를 조회한다.")
 	public ResponseEntity<VideoDetailResponseDto> videoDetail(
-			@Parameter(description = "동영상 id 값", example = "1") @PathVariable("videoId") String videoId) {
-		return ResponseEntity.ok(videoService.getVideoDetail(videoId));
+			@Parameter(description = "동영상 id 값", example = "1") @PathVariable("videoId") Long videoId) {
+		return ResponseEntity.ok(videoService.getVideo(videoId));
 	}
 }

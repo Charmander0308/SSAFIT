@@ -5,9 +5,11 @@
 <mapper namespace="com.ssafit.challenge.dao.ChallengeDao">
 	<select id="selectChallengeList" parameterType="Long" resultType="ChallengeResponseDto">
 		select
+			c.id,
 			c.challenge_name,
 			c.challenge_info,
 			c.challenge_icon_directory,
+			c.challenge_target,
 			c.challenge_goal,
 			m.achieve_date
 		from challenges c left join challenge_user_map m
@@ -55,4 +57,21 @@
 		insert into challenge_user_map (challenges_id, member_id, achieve_date)
 		values (#{challengeId}, #{memberId}, now());
 	</insert>
+	
+	<select id="findAchievedById" parameterType="Long" resultType="ChallengeAchievedDto">
+		select 
+			c.id,
+			c.challenge_name,
+		    c.challenge_info,
+		    c.challenge_icon_directory,
+		    m.achieve_date
+		from challenges c 
+		join challenge_user_map m on c.id = m.challenges_id
+		where m.member_id = #{memberId}
+	</select>
+	
+	<select id="findAll" resultType="ChallengeResponseDto">
+		select * from challenges
+	</select>
+	
 </mapper>

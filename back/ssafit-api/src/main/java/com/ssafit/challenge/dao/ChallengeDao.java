@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafit.challenge.dto.ChallengeAchievedDto;
 import com.ssafit.challenge.dto.ChallengeRequestDto;
 import com.ssafit.challenge.dto.ChallengeResponseDto;
 
@@ -24,5 +25,10 @@ public interface ChallengeDao {
 	
 	//달성 챌린지 아이콘 조회
 	public List<String> selectAchievedChallenges(Long memberId);
+	
+	//달성한 챌린지 목록 담기
+	public List<ChallengeAchievedDto> findAchievedById(Long memberId);
+	//전체 담기
+	public List<ChallengeResponseDto> findAll();
 
 }
